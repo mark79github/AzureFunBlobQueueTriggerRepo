@@ -1,0 +1,203 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_FunApp2TableStoragewithQueueBlobTriggers_name": {
+            "defaultValue": "FunApp2TableStoragewithQueueBlobTriggers",
+            "type": "String"
+        },
+        "serverfarms_CentralUSPlan_externalid": {
+            "defaultValue": "/subscriptions/3ba3b1ee-cdf6-4ce2-918d-4346318d33ac/resourceGroups/functionapp_vs_publish_tablestorage_queue_blob_rg/providers/Microsoft.Web/serverfarms/CentralUSPlan",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name')]",
+            "location": "Central US",
+            "kind": "functionapp",
+            "identity": {
+                "principalId": "9e46f002-f88a-4c80-a42a-ca4a4d102b02",
+                "tenantId": "c2b32200-af02-4fa3-b2bc-118b3582a4b8",
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "funapp2tablestoragewithqueueblobtriggers.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "funapp2tablestoragewithqueueblobtriggers.scm.azurewebsites.net",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[parameters('serverfarms_CentralUSPlan_externalid')]",
+                "reserved": false,
+                "isXenon": false,
+                "hyperV": false,
+                "siteConfig": {},
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": false,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 1536,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": true,
+                "redundancyMode": "None"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2018-11-01",
+            "name": "[concat(parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'), '/web')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": -1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": "VS2019",
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$FunApp2TableStoragewithQueueBlobTriggers",
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false
+                    }
+                ],
+                "loadBalancing": "LeastRequests",
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "cors": {
+                    "allowedOrigins": [
+                        "https://functions.azure.com",
+                        "https://functions-staging.azure.com",
+                        "https://functions-next.azure.com"
+                    ],
+                    "supportCredentials": false
+                },
+                "localMySqlEnabled": false,
+                "managedServiceIdentityId": 36788,
+                "ipSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 1,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 1,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictionsUseMain": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/deployments",
+            "apiVersion": "2018-11-01",
+            "name": "[concat(parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'), '/024fa727e5bb41468c56395339ed9d2b')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'))]"
+            ],
+            "properties": {
+                "status": 4,
+                "author_email": "N/A",
+                "author": "N/A",
+                "deployer": "ZipDeploy",
+                "message": "Created via a push deployment",
+                "start_time": "2020-06-19T11:28:37.1974367Z",
+                "end_time": "2020-06-19T11:28:44.4428321Z",
+                "active": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/functions",
+            "apiVersion": "2018-11-01",
+            "name": "[concat(parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'), '/RegisterUserHTTPTrigger2TableAndQueueFun')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'))]"
+            ],
+            "properties": {
+                "script_root_path_href": "https://funapp2tablestoragewithqueueblobtriggers.azurewebsites.net/admin/vfs/site/wwwroot/RegisterUserHTTPTrigger2TableAndQueueFun/",
+                "script_href": "https://funapp2tablestoragewithqueueblobtriggers.azurewebsites.net/admin/vfs/site/wwwroot/bin/FunApp2TableStoragewithQueueBlobTriggers.dll",
+                "config_href": "https://funapp2tablestoragewithqueueblobtriggers.azurewebsites.net/admin/vfs/site/wwwroot/RegisterUserHTTPTrigger2TableAndQueueFun/function.json",
+                "href": "https://funapp2tablestoragewithqueueblobtriggers.azurewebsites.net/admin/functions/RegisterUserHTTPTrigger2TableAndQueueFun",
+                "config": {},
+                "test_data": "{\"method\":\"post\",\"queryStringParams\":[],\"headers\":[],\"body\":\"{\\r\\n    \\\"firstname\\\":\\\"BILL\\\",\\r\\n    \\\"lastname\\\":\\\"GATES\\\",\\r\\n    \\\"ProfilePicUrl\\\":\\\"https://upload.wikimedia.org/wikipedia/commons/1/19/Bill_Gates_June_2015.jpg\\\"\\r\\n}\"}"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/functions",
+            "apiVersion": "2018-11-01",
+            "name": "[concat(parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'), '/WriteUserProfilePicFromQueueTrigger2BlobFun')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'))]"
+            ],
+            "properties": {
+                "script_root_path_href": "https://funapp2tablestoragewithqueueblobtriggers.azurewebsites.net/admin/vfs/site/wwwroot/WriteUserProfilePicFromQueueTrigger2BlobFun/",
+                "script_href": "https://funapp2tablestoragewithqueueblobtriggers.azurewebsites.net/admin/vfs/site/wwwroot/bin/FunApp2TableStoragewithQueueBlobTriggers.dll",
+                "config_href": "https://funapp2tablestoragewithqueueblobtriggers.azurewebsites.net/admin/vfs/site/wwwroot/WriteUserProfilePicFromQueueTrigger2BlobFun/function.json",
+                "href": "https://funapp2tablestoragewithqueueblobtriggers.azurewebsites.net/admin/functions/WriteUserProfilePicFromQueueTrigger2BlobFun",
+                "config": {}
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2018-11-01",
+            "name": "[concat(parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'), '/', parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'), '.azurewebsites.net')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_FunApp2TableStoragewithQueueBlobTriggers_name'))]"
+            ],
+            "properties": {
+                "siteName": "FunApp2TableStoragewithQueueBlobTriggers",
+                "hostNameType": "Verified"
+            }
+        }
+    ]
+}
